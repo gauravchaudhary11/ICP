@@ -1,0 +1,39 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        String expStr="+-/*";
+        ArrayDeque<Integer>st=new ArrayDeque<>();
+        for(int i=0;i<tokens.length;i++){
+            String tkns=tokens[i];
+            if(expStr.contains(tkns)){
+                //evaluate result and push in to the stack
+                int op2=st.pop();
+                int op1=st.pop();
+
+                int val=0;
+                switch(tkns){
+                    case "+":
+                       val=op1+op2;
+                       break;
+                    case "-":
+                       val=op1-op2;
+                       break;  
+                    case "*":
+                       val=op1*op2;
+                       break;
+                    case "/":
+                       val=op1/op2;
+                       break;       
+                }
+                st.push(val);
+
+            }
+            else{
+                //directly push in to stack
+                st.push(Integer.parseInt(tkns));
+
+            }
+        }
+        return st.peek();
+        
+    }
+}
