@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates); // sort karna zaruri hai duplicate skip ke liye
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(candidates, target, 0, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    public void helper(int arr[], int tar, int idx, List<Integer> list, List<List<Integer>> ans) {
+        if (tar == 0) { //  valid combination mil gaya
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+
+        if (idx == arr.length || tar < 0) return; // base condition
+
+        //PICK current element
+        list.add(arr[idx]);
+        helper(arr, tar - arr[idx], idx + 1, list, ans);
+        list.remove(list.size() - 1);
+
+        // NOT PICK current element
+        //skip all duplicates of current number
+        int next = idx + 1;
+        while (next < arr.length && arr[next] == arr[idx]) {
+            next++;
+        }
+
+        helper(arr, tar, next, list, ans);
+    }
+}
